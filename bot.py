@@ -18,7 +18,28 @@ import sqlite3
 from pathlib import Path
 from telegram import Update, InputFile
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
-
+# --- QUICK CHECK: посылаем прямой запрос к /getMe через httpx и логируем ответ ---
+try:
+    import httpx
+    check_url = f"https://api.telegram.org/bot{TOKEN}/getMe"
+    print("DEBUG: Performing direct HTTP check to Telegram getMe...")
+    sys.stdout.flush()
+    try:
+        resp = httpx.get(check_url, timeout=15.0)
+        print("DEBUG: httpx status:", resp.status_code)
+        # печатаем тело (безопасно, там нет токена)
+        text = resp.text
+        if len(text) > 1000:
+            text = text[:1000] + "...(truncated)"
+        print("DEBUG: httpx body:", text)
+        sys.stdout.flush()
+    except Exception as e:
+        print("DEBUG: httpx request failed:", repr(e))
+        sys.stdout.flush()
+except Exception as e:
+    print("DEBUG: httpx import/exec failed:", repr(e))
+    sys.stdout.flush()
+#
 # Путь к папке проекта
 BASE_DIR = Path(__file__).parent
 
