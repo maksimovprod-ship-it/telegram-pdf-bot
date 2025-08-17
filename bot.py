@@ -1,6 +1,12 @@
 import os
 import os, hashlib, sys
-
+import logging
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+# Увеличим детализацию для модулей, которые нам важны
+logging.getLogger("telegram").setLevel(logging.DEBUG)
+logging.getLogger("telegram.ext").setLevel(logging.DEBUG)
+logging.getLogger("httpx").setLevel(logging.DEBUG)
+logging.getLogger("urllib3").setLevel(logging.DEBUG)
 # --- DEBUG: показываем в логах маску токена и его sha256 (без раскрытия самого токена) ---
 TOKEN = os.environ.get("TOKEN")
 if not TOKEN:
