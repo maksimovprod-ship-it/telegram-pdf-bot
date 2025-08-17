@@ -50,7 +50,10 @@ except Exception as e:
 BASE_DIR = Path(__file__).parent
 
 # Параметры: замените на свои
-TOKEN = "8495777142:AAG_r2MmFsS1s7YEpOf5fXTAXWLUGMD52WU"  # Ваш токен
+import os
+TOKEN = os.environ.get("TOKEN")
+if not TOKEN:
+    raise RuntimeError("TOKEN env variable is not set")  # Ваш токен
 ADMIN_ID = 461827961  # Ваш Telegram ID
 
 # Папка с PDF-файлами и база данных
