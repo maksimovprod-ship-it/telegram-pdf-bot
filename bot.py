@@ -1,4 +1,19 @@
 import os
+import os, hashlib, sys
+
+# --- DEBUG: показываем в логах маску токена и его sha256 (без раскрытия самого токена) ---
+TOKEN = os.environ.get("TOKEN")
+if not TOKEN:
+    print("DEBUG: TOKEN env variable is NOT SET")
+    sys.stdout.flush()
+else:
+    TOKEN = TOKEN.strip()
+    preview = TOKEN[:6] + "..." + TOKEN[-6:] if len(TOKEN) > 12 else TOKEN
+    print(f"DEBUG: TOKEN present. len={len(TOKEN)} preview={preview}")
+    sha = hashlib.sha256(TOKEN.encode()).hexdigest()
+    print(f"DEBUG: TOKEN sha256={sha}")
+    sys.stdout.flush()
+#
 import sqlite3
 from pathlib import Path
 from telegram import Update, InputFile
